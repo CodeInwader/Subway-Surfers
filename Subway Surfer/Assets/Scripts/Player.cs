@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
                 if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right * -1), out hit, Mathf.Infinity)) //Detection if player can turn left
                 {
                     
-                    if (hit.transform.tag == "Barier")
+                    if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
                    {
                         canTurn = false;
                         
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour
                 if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity)) //Detection if player can turn right
                 {
                    
-                    if (hit.transform.tag == "Barier")
+                    if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
                     {
                         canTurn = false;
                         
@@ -273,5 +273,24 @@ public class Player : MonoBehaviour
         Controller.center = new Vector3(0, 0.49f, 0);
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.transform.tag == "Barier")
+        {
+           
+            UIAndScoreManager.gameHasStarted = false;
+            Die();
+        }
+        
+        
+    }
 
+    void Die()
+    {
+        RunSpeed = 0;
+        animator.Play("MaxFall-BackScene");
+        
+    }
+
+   
 }
