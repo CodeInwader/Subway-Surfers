@@ -350,7 +350,9 @@
 -r:"Library/Bee/artifacts/900b0aE.dag/UnityEngine.UI.ref.dll"
 "Assets/Scripts/CamFolow.cs"
 "Assets/Scripts/Coin.cs"
+"Assets/Scripts/CoinManager.cs"
 "Assets/Scripts/EndlesMapGenerator.cs"
+"Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/UIAndScoreManager.cs"
 -langversion:9.0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIAndScoreManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class UIAndScoreManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     public static int score;
     public static bool gameHasStarted = false;
+
+    [SerializeField] GameObject deadPanel;
+    [SerializeField] TextMeshPro endScore;
 
     private void Awake()
     {
@@ -25,6 +29,7 @@ public class UIAndScoreManager : MonoBehaviour
     void FixedUpdate()
     {
         if (gameHasStarted) Score();
+        
 
         scoreText.text = score.ToString() + "m";
 
@@ -45,5 +50,21 @@ public class UIAndScoreManager : MonoBehaviour
     {
         Time.timeScale = 1;
         gameHasStarted = true;
+    }
+
+    public void Dead()
+    {
+        deadPanel.SetActive(true);
+
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ReloaScene()
+    {
+        SceneManager.LoadScene("Main");
     }
 }

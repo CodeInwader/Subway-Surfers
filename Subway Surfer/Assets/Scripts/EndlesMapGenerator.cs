@@ -44,12 +44,15 @@ public class EndlesMapGenerator : MonoBehaviour
         int randomNumber = Random.Range(0, FreeTiles.Count);
         Debug.Log(randomNumber);
         GameObject tileToSpawn = FreeTiles[randomNumber];
+        CoinManager coinManager = tileToSpawn.GetComponentInChildren<CoinManager>();
+        coinManager.ReCycleCoins();
 
         tileToSpawn.SetActive(true);
         tileToSpawn.transform.position = spawnPosition;
         ofSpawnedTiles.Add(tileToSpawn);
         FreeTiles.Remove(tileToSpawn);
 
+        Debug.Log("we are recyclating");
        
 
     }

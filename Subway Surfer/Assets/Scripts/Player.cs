@@ -43,7 +43,9 @@ public class Player : MonoBehaviour
 
     [Header("Audio")]
     public AudioClip HitSound;
-    
+
+    [Header("Script Reference")]
+    public UIAndScoreManager uiandscoremanager;
 
 
 
@@ -287,8 +289,10 @@ public class Player : MonoBehaviour
 
     void Die()
     {
+       
         RunSpeed = 0;
-        animator.Play("MaxFall-BackScene");
+        uiandscoremanager.Dead();
+        animator.Play("MaxDead");
         
     }
 
