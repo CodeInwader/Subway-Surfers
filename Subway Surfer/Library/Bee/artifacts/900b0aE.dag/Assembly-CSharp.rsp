@@ -352,6 +352,7 @@
 "Assets/Scripts/Coin.cs"
 "Assets/Scripts/CoinManager.cs"
 "Assets/Scripts/EndlesMapGenerator.cs"
+"Assets/Scripts/GlobalLeadboard.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/UIAndScoreManager.cs"

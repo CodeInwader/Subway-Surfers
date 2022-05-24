@@ -12,7 +12,7 @@ public class UIAndScoreManager : MonoBehaviour
     public static bool gameHasStarted = false;
 
     [SerializeField] GameObject deadPanel;
-    [SerializeField] TextMeshPro endScore;
+    [SerializeField] TextMeshProUGUI endScore;
 
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class UIAndScoreManager : MonoBehaviour
     public void Dead()
     {
         deadPanel.SetActive(true);
-
+        endScore.text = score.ToString() + "m";
     }
 
     public void LoadMainMenu()
