@@ -14,6 +14,10 @@ public class UIAndScoreManager : MonoBehaviour
     [SerializeField] GameObject deadPanel;
     [SerializeField] TextMeshProUGUI endScore;
 
+    public GlobalLeadboard GlobalLeadboard;
+
+    public GameObject GlobalLeadboardManager;
+
     private void Awake()
     {
         Time.timeScale = 0;
@@ -22,7 +26,7 @@ public class UIAndScoreManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GlobalLeadboardManager = GameObject.Find("GlobalLeadboardManager");
     }
 
     // Update is called once per frame
@@ -56,6 +60,9 @@ public class UIAndScoreManager : MonoBehaviour
     {
         deadPanel.SetActive(true);
         endScore.text = score.ToString() + "m";
+        GlobalLeadboardManager.GetComponent<GlobalLeadboard>().TestJson(score);
+        Debug.Log(score);
+       
     }
 
     public void LoadMainMenu()
@@ -66,5 +73,6 @@ public class UIAndScoreManager : MonoBehaviour
     public void ReloaScene()
     {
         SceneManager.LoadScene("Main");
+        score = 0;
     }
 }

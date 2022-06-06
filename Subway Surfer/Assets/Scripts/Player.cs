@@ -47,6 +47,8 @@ public class Player : MonoBehaviour
     [Header("Script Reference")]
     public UIAndScoreManager uiandscoremanager;
 
+    bool maxIsDead = true;
+
 
 
 
@@ -63,6 +65,7 @@ public class Player : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
+       
     }
 
     private void Update()
@@ -289,10 +292,14 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-       
-        RunSpeed = 0;
-        uiandscoremanager.Dead();
-        animator.Play("MaxDead");
+       if(maxIsDead)
+        {
+            RunSpeed = 0;
+            uiandscoremanager.Dead();
+            animator.Play("MaxDead");
+            maxIsDead = false;
+        }
+        
         
     }
 

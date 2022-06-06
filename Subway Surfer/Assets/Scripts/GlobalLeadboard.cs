@@ -28,15 +28,20 @@ public class GlobalLeadboard : MonoBehaviour
     public List<LeadBoardInfo> leadBoardInfos = new List<LeadBoardInfo>();
     public TextMeshProUGUI PrefabText;
     public Transform ButtonParent;
+    public static string currentName;
+    bool scoreIsBigger = false;
 
 
     void Start()
     {
+        DontDestroyOnLoad(gameObject);
         //Get Data from server
         StartCoroutine(getRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
        
 
     }
+
+    
 
     //Get Data from server
     IEnumerator getRequest(string uri)
@@ -52,32 +57,48 @@ public class GlobalLeadboard : MonoBehaviour
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
 
+            leadBoardInfos.Clear();
             leadBoardInfos = JsonConvert.DeserializeObject<List<LeadBoardInfo>>(uwr.downloadHandler.text);
             CreatingUI();
         }
     }
 
-    void TestJson()
+   public void TestJson(int score)
     {
-        LeadBoardInfo leadBoardInfo = new LeadBoardInfo()
+        Debug.Log("dddddddddd");
+        foreach (LeadBoardInfo element in leadBoardInfos)
+       {
+            if (element.score < score)
+            {
+                scoreIsBigger = true;
+                break;
+            }
+       }
+
+        if (scoreIsBigger)
         {
-            score = 1,
-            username = "Username"
+            Debug.Log("dddddddddd");
+            LeadBoardInfo leadBoardInfo = new LeadBoardInfo()
+            {
+                score = score,
+                username = currentName
 
-        };
+            };
 
-        DataToSend dataToSend = new DataToSend()
-        {
-            token = "i7hhbXCdL9m5Cwt",
-            leaderboard = leadBoardInfo
+            DataToSend dataToSend = new DataToSend()
+            {
+                token = "i7hhbXCdL9m5Cwt",
+                leaderboard = leadBoardInfo
 
-        };
+            };
 
-        string json = JsonConvert.SerializeObject(dataToSend, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(dataToSend, Formatting.Indented);
 
-        StartCoroutine(postRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG", json));
-        Debug.Log(json);
+            StartCoroutine(postRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG", json));
 
+            scoreIsBigger = false;
+        }
+       
     }
 
     
@@ -85,6 +106,8 @@ public class GlobalLeadboard : MonoBehaviour
     
     IEnumerator postRequest(string url, string json)
     {
+        
+
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -93,12 +116,16 @@ public class GlobalLeadboard : MonoBehaviour
         yield return request.SendWebRequest();
         Debug.Log("Status Code: " + request.responseCode);
 
+        
         StartCoroutine(getRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
+        
     }
 
 
     void CreatingUI()
     {
+        leadBoardInfos.Sort(SortFunction);
+
         foreach (LeadBoardInfo element in leadBoardInfos)
         {
            TextMeshProUGUI text = Instantiate(PrefabText, ButtonParent.transform);
@@ -108,5 +135,18 @@ public class GlobalLeadboard : MonoBehaviour
 
             tff.gameObject.GetComponent<TextMeshProUGUI>().text = element.score.ToString();
         }
+    }
+
+    private int SortFunction(LeadBoardInfo a, LeadBoardInfo b)
+    {
+        if(a.score < b.score)
+        {
+            return 1;
+        }
+        else if (a.score > b.score)
+        {
+            return -1;
+        }
+        return 0;
     }
 }

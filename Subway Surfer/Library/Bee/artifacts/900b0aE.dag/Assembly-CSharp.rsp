@@ -355,6 +355,7 @@
 "Assets/Scripts/GlobalLeadboard.cs"
 "Assets/Scripts/MainMenu.cs"
 "Assets/Scripts/Player.cs"
+"Assets/Scripts/Settings.cs"
 "Assets/Scripts/UIAndScoreManager.cs"
 -langversion:9.0
 
