@@ -44,10 +44,14 @@ public class Player : MonoBehaviour
 
 
     [Header("Audio")]
-    public AudioClip HitSound;
+    public AudioSource HitSound;
+    public AudioSource SwipeSound;
+    public AudioSource JumpAndSlide;
+    public AudioSource Music;
 
     [Header("Script Reference")]
     public UIAndScoreManager uiandscoremanager;
+
 
     bool maxIsDead = true;
 
@@ -74,7 +78,9 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-         Swipe();
+        Swipe();
+        MoveLeftRight();
+
         // Gravitace 1/2 * g * t^2
         m_Velocity.y += gravity * Time.deltaTime;
 
@@ -160,8 +166,8 @@ public class Player : MonoBehaviour
                     if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
                    {
                         canTurn = false;
-                        
-                   }
+                        HitSound.Play();
+                    }
                     else
                    {
                         canTurn = true;
@@ -171,15 +177,19 @@ public class Player : MonoBehaviour
                 //Left
                 if (canTurn)
                 {
+                    SwipeSound.Play();
+
                     if (currentPosition == position.Midle)
                     {
                         currentPosition = position.Left;
                         NewXPos = -XValue;
+                        
                     }
                     else if (currentPosition == position.Right)
                     {
                         currentPosition = position.Midle;
                         NewXPos = 0;
+                       
                     }
                 }
                 
@@ -198,7 +208,7 @@ public class Player : MonoBehaviour
                     if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
                     {
                         canTurn = false;
-                        
+                        HitSound.Play();
                     }
                     else
                     {
@@ -210,15 +220,19 @@ public class Player : MonoBehaviour
                 //Right
                 if (canTurn)
                 {
+                    SwipeSound.Play();
+
                     if (currentPosition == position.Midle)
                     {
                         NewXPos = XValue;
                         currentPosition = position.Right;
+                       
                     }
                     else if (currentPosition == position.Left && canTurn == true)
                     {
                         NewXPos = 0;
                         currentPosition = position.Midle;
+                        
                     }
                 }
 
@@ -233,6 +247,7 @@ public class Player : MonoBehaviour
                 Debug.Log("Up");
                 if (m_IsGrounded)
                 {
+                    JumpAndSlide.Play();
                     m_Velocity.y = Mathf.Sqrt(jumpForce * -gravity );
                     animator.Play("MaxSneakers-JumpA");
                 }
@@ -242,6 +257,8 @@ public class Player : MonoBehaviour
             else if (moveDistance.y < -SwipeRange)
             {
                 //Down
+
+                JumpAndSlide.Play();
 
                 if (!m_IsGrounded)
                 {
@@ -263,18 +280,25 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        x = Mathf.Lerp(x, NewXPos, Time.deltaTime * swipeSpeed);
+        
 
         //Forward Move
         Controller.Move(RunSpeed * move * Time.deltaTime);
 
         //Gravitation, Up, Down
         Controller.Move(m_Velocity * Time.deltaTime);
+       
+    }
+
+    void MoveLeftRight()
+    {
+        
+        x = Mathf.Lerp(x, NewXPos, 0.2f);
 
         //Move left, right
         Controller.Move((x - transform.position.x) * Vector3.right);
+        
     }
-
 
     public void EndOfSlide()
     {
@@ -298,10 +322,13 @@ public class Player : MonoBehaviour
     {
        if(maxIsDead)
         {
+            
             animator.Play("MaxDead");
             RunSpeed = 0;
             uiandscoremanager.Dead();
             maxIsDead = false;
+            HitSound.Play();
+            Music.Stop();
         }
         
         
