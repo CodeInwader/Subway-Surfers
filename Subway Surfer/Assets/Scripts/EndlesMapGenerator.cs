@@ -42,7 +42,6 @@ public class EndlesMapGenerator : MonoBehaviour
         //Spawning
         spawnPosition = spawnPosition + new Vector3(0, 0, z);
         int randomNumber = Random.Range(0, FreeTiles.Count);
-        Debug.Log(randomNumber);
         GameObject tileToSpawn = FreeTiles[randomNumber];
         CoinManager coinManager = tileToSpawn.GetComponentInChildren<CoinManager>();
         coinManager.ReCycleCoins();
@@ -52,9 +51,7 @@ public class EndlesMapGenerator : MonoBehaviour
         ofSpawnedTiles.Add(tileToSpawn);
         FreeTiles.Remove(tileToSpawn);
 
-        Debug.Log("we are recyclating");
-       
-
+        tileToSpawn.GetComponentInChildren<CoinManager>().ReCycleCoins();
     }
 
     void BackToPool()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 enum position { Midle, Left, Right }
 
 public class Player : MonoBehaviour
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
     [Header("Animations")]
     public Animator animator;
 
+
     [Header("Audio")]
     public AudioClip HitSound;
 
@@ -57,7 +59,9 @@ public class Player : MonoBehaviour
     {
         move = transform.forward;
         transform.position = Vector3.zero;
-       
+
+        Application.targetFrameRate = 60;
+        
     }
 
     // Update is called once per frame
@@ -89,16 +93,16 @@ public class Player : MonoBehaviour
     void Swipe()
     {
         
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && maxIsDead) //Touch Input
         {
             startTouchPosition = Input.GetTouch(0).position;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0)) // Mouse Input
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && maxIsDead) // Mouse Input
         {
             startTouchPosition = Input.mousePosition;
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && maxIsDead) //Touch Input
         {
             currentTouchPosition = Input.GetTouch(0).position;
             Vector2 moveDistance = currentTouchPosition - startTouchPosition;
@@ -106,7 +110,7 @@ public class Player : MonoBehaviour
             GetDir(moveDistance);
            
         }
-        else if (Input.GetKey(KeyCode.Mouse0)) // Mouse Input
+        else if (Input.GetKey(KeyCode.Mouse0) && maxIsDead) // Mouse Input
         {
             currentTouchPosition = Input.mousePosition;
             Vector3 moveDistance = currentTouchPosition - startTouchPosition;
@@ -114,7 +118,7 @@ public class Player : MonoBehaviour
             GetDir(moveDistance);
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && maxIsDead) //Touch Input
         {
             stopTouch = false;
 
@@ -122,12 +126,12 @@ public class Player : MonoBehaviour
 
             Vector2 distance = lastTouchPosition - startTouchPosition;
 
-            if(Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange)
+            if(Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && maxIsDead)
             {
                 //Touch
             }
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0)) // Mouse Input
+        else if (Input.GetKeyUp(KeyCode.Mouse0) && maxIsDead) // Mouse Input
         {
             stopTouch = false;
 
@@ -135,7 +139,7 @@ public class Player : MonoBehaviour
 
             Vector2 distance = lastTouchPosition - startTouchPosition;
 
-            if (Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange)
+            if (Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && maxIsDead)
             {
                 //Touch
             }
@@ -294,9 +298,9 @@ public class Player : MonoBehaviour
     {
        if(maxIsDead)
         {
+            animator.Play("MaxDead");
             RunSpeed = 0;
             uiandscoremanager.Dead();
-            animator.Play("MaxDead");
             maxIsDead = false;
         }
         

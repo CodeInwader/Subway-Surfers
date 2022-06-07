@@ -13,6 +13,7 @@ public class CoinManager : MonoBehaviour
             if(element.activeInHierarchy != true)
             {
                 element.SetActive(true);
+            
             }
         }
    }

@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class UIAndScoreManager : MonoBehaviour
 {
-    [SerializeField] GameObject mainMenuPanel;
     [SerializeField] TextMeshProUGUI scoreText;
     public static int score;
     public static bool gameHasStarted = false;
