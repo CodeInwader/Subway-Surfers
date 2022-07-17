@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-enum position { Midle, Left, Right }
+enum position { Middle, Left, Right }
 
 public class Player : MonoBehaviour
 {
@@ -12,13 +12,13 @@ public class Player : MonoBehaviour
     public CharacterController Controller;
     public float RunSpeed;
     Vector3 move;
-    Vector3 m_Velocity = Vector3.zero;
+    Vector3 velocity = Vector3.zero;
     Vector3 sideMove = Vector3.zero;
-    position currentPosition = position.Midle;
-    float NewXPos = 0f;
+    position currentPosition = position.Middle;
+    float newXPos = 0f;
     public float XValue;
     private float x;
-    public float swipeSpeed = 30f;
+    public float SwipeSpeed = 30f;
     bool canTurn;
     public GameObject RaycastPoint;
    
@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     public AudioSource Music;
 
     [Header("Script Reference")]
-    public UIAndScoreManager uiandscoremanager;
+    public UIAndScoreManager Uiandscoremanager;
 
 
     bool maxIsDead = true;
@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
 
 
 
-    // Start is called before the first frame update
     void Start()
     {
         move = transform.forward;
@@ -68,7 +67,7 @@ public class Player : MonoBehaviour
         
     }
 
-    // Update is called once per frame
+    
    
     private void FixedUpdate()
     {
@@ -82,14 +81,14 @@ public class Player : MonoBehaviour
         MoveLeftRight();
 
         // Gravitace 1/2 * g * t^2
-        m_Velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.deltaTime;
 
         //Ground Check
         m_IsGrounded = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundLayer);
 
-        if (m_IsGrounded && m_Velocity.y < 0)
+        if (m_IsGrounded && velocity.y < 0)
         {
-            m_Velocity.y = -2f;
+            velocity.y = -2f;
         }
 
        
@@ -179,16 +178,16 @@ public class Player : MonoBehaviour
                 {
                     SwipeSound.Play();
 
-                    if (currentPosition == position.Midle)
+                    if (currentPosition == position.Middle)
                     {
                         currentPosition = position.Left;
-                        NewXPos = -XValue;
+                        newXPos = -XValue;
                         
                     }
                     else if (currentPosition == position.Right)
                     {
-                        currentPosition = position.Midle;
-                        NewXPos = 0;
+                        currentPosition = position.Middle;
+                        newXPos = 0;
                        
                     }
                 }
@@ -222,16 +221,16 @@ public class Player : MonoBehaviour
                 {
                     SwipeSound.Play();
 
-                    if (currentPosition == position.Midle)
+                    if (currentPosition == position.Middle)
                     {
-                        NewXPos = XValue;
+                        newXPos = XValue;
                         currentPosition = position.Right;
                        
                     }
                     else if (currentPosition == position.Left && canTurn == true)
                     {
-                        NewXPos = 0;
-                        currentPosition = position.Midle;
+                        newXPos = 0;
+                        currentPosition = position.Middle;
                         
                     }
                 }
@@ -248,7 +247,7 @@ public class Player : MonoBehaviour
                 if (m_IsGrounded)
                 {
                     JumpAndSlide.Play();
-                    m_Velocity.y = Mathf.Sqrt(jumpForce * -gravity );
+                    velocity.y = Mathf.Sqrt(jumpForce * -gravity );
                     animator.Play("MaxSneakers-JumpA");
                 }
 
@@ -262,7 +261,7 @@ public class Player : MonoBehaviour
 
                 if (!m_IsGrounded)
                 {
-                    m_Velocity.y = -50f;
+                    velocity.y = -50f;
                     animator.Play("MaxSneakers-Scroll");
                     
                 }
@@ -286,14 +285,14 @@ public class Player : MonoBehaviour
         Controller.Move(RunSpeed * move * Time.deltaTime);
 
         //Gravitation, Up, Down
-        Controller.Move(m_Velocity * Time.deltaTime);
+        Controller.Move(velocity * Time.deltaTime);
        
     }
 
     void MoveLeftRight()
     {
         
-        x = Mathf.Lerp(x, NewXPos, 0.2f);
+        x = Mathf.Lerp(x, newXPos, 0.2f);
 
         //Move left, right
         Controller.Move((x - transform.position.x) * Vector3.right);
@@ -311,7 +310,7 @@ public class Player : MonoBehaviour
         if (hit.transform.tag == "Barier")
         {
            
-            UIAndScoreManager.gameHasStarted = false;
+            UIAndScoreManager.GameHasStarted = false;
             Die();
         }
         
@@ -325,7 +324,7 @@ public class Player : MonoBehaviour
             
             animator.Play("MaxDead");
             RunSpeed = 0;
-            uiandscoremanager.Dead();
+            Uiandscoremanager.Dead();
             maxIsDead = false;
             HitSound.Play();
             Music.Stop();

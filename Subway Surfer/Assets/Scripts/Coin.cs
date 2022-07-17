@@ -10,7 +10,7 @@ public class Coin : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         gameObject.SetActive(false);
-        UIAndScoreManager.score++;
+        UIAndScoreManager.IncrementScore();
         coinEat.Play();
        
     }

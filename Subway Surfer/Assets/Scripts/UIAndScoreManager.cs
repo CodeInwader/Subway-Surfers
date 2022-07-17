@@ -8,7 +8,7 @@ public class UIAndScoreManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreText;
     public static int score;
-    public static bool gameHasStarted = false;
+    public static bool GameHasStarted = false;
 
     [SerializeField] GameObject deadPanel;
     [SerializeField] TextMeshProUGUI endScore;
@@ -22,44 +22,39 @@ public class UIAndScoreManager : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    // Start is called before the first frame update
+
     void Start()
     {
         GlobalLeadboardManager = GameObject.Find("GlobalLeadboardManager");
     }
 
-    // Update is called once per frame
+   
     void FixedUpdate()
     {
-        if (gameHasStarted) Score();
+        if (GameHasStarted) IncrementScore();
         
 
         scoreText.text = score.ToString() + "m";
 
     }
 
-    void Score()
-    {
-        score++;
-    }
-
     public void Pause()
     {
         Time.timeScale = 0f;
-        gameHasStarted = false;
+        GameHasStarted = false;
     }
 
    public void Resume()
     {
         Time.timeScale = 1;
-        gameHasStarted = true;
+        GameHasStarted = true;
     }
 
     public void Dead()
     {
         deadPanel.SetActive(true);
         endScore.text = score.ToString() + "m";
-        GlobalLeadboardManager.GetComponent<GlobalLeadboard>().TestJson(score);
+        GlobalLeadboardManager.GetComponent<GlobalLeadboard>().IsScoreBigger(score);
         Debug.Log(score);
        
     }
@@ -73,5 +68,10 @@ public class UIAndScoreManager : MonoBehaviour
     {
         SceneManager.LoadScene("Main");
         score = 0;
+    }
+
+    public static void IncrementScore()
+    {
+        score++;
     }
 }

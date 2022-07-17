@@ -10062,7 +10062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b43770ae786e47d6a919334aecabe13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leadBoardInfos: []
+  LeadBoardInfos: []
   PrefabText: {fileID: 0}
   ButtonParent: {fileID: 0}
 --- !u!4 &697012942
@@ -23686,9 +23686,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1300884d003c54915b2ddcbb11488dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _SliderVolume: {fileID: 3683947553902621823}
-  _SliderSfx: {fileID: 3683947554874808863}
-  _AudioMixer: {fileID: 24100000, guid: beafb1a99ae31493a81415997f8cd379, type: 2}
+  SliderVolume: {fileID: 3683947553902621823}
+  SliderSfx: {fileID: 3683947554874808863}
+  AudioMixer: {fileID: 24100000, guid: beafb1a99ae31493a81415997f8cd379, type: 2}
 --- !u!4 &1568837550
 Transform:
   m_ObjectHideFlags: 0
@@ -52322,7 +52322,7 @@ MonoBehaviour:
   Controller: {fileID: 6172726480997892159}
   RunSpeed: 30
   XValue: 5
-  swipeSpeed: 10
+  SwipeSpeed: 30
   RaycastPoint: {fileID: 415399090}
   gravity: -40
   jumpForce: 10
@@ -52338,7 +52338,7 @@ MonoBehaviour:
   SwipeSound: {fileID: 1246357478}
   JumpAndSlide: {fileID: 481484892}
   Music: {fileID: 1934663627}
-  uiandscoremanager: {fileID: 2021109308}
+  Uiandscoremanager: {fileID: 2021109308}
 --- !u!143 &6172726480997892159
 CharacterController:
   m_ObjectHideFlags: 0
@@ -52393,7 +52393,7 @@ MonoBehaviour:
   - {fileID: 9218062154932374510}
   - {fileID: 4970821665520725445}
   - {fileID: 1534686734303484629}
-  ofSpawnedTiles: []
+  OfSpawnedTiles: []
 --- !u!4 &6172726480997892162
 Transform:
   m_ObjectHideFlags: 0

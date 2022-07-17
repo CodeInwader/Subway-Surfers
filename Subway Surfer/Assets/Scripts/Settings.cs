@@ -7,22 +7,22 @@ using System;
 
 public class Settings : MonoBehaviour
 {
-    public Slider _SliderVolume;
+    public Slider SliderVolume;
 
-    public Slider _SliderSfx;
+    public Slider SliderSfx;
 
-    public AudioMixer _AudioMixer;
+    public AudioMixer AudioMixer;
    
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         //Setting Volume
-        _AudioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("volume"));
-       _SliderVolume.SetValueWithoutNotify(PlayerPrefs.GetFloat("volume"));
+        AudioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("volume"));
+       SliderVolume.SetValueWithoutNotify(PlayerPrefs.GetFloat("volume"));
 
-        _SliderSfx.SetValueWithoutNotify(PlayerPrefs.GetFloat("VolumeSFX"));
-        _AudioMixer.SetFloat("VolumeSFX", PlayerPrefs.GetFloat("VolumeSFX"));
+        SliderSfx.SetValueWithoutNotify(PlayerPrefs.GetFloat("VolumeSFX"));
+        AudioMixer.SetFloat("VolumeSFX", PlayerPrefs.GetFloat("VolumeSFX"));
     }
 
    
@@ -30,12 +30,12 @@ public class Settings : MonoBehaviour
     public void SetVolume(float volume)
     {
         PlayerPrefs.SetFloat("volume", volume);
-        _AudioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("volume"));
+        AudioMixer.SetFloat("Volume", PlayerPrefs.GetFloat("volume"));
     }
 
     public void SetVolumeSFX(float volume)
     {
         PlayerPrefs.SetFloat("VolumeSFX", volume);
-        _AudioMixer.SetFloat("VolumeSFX", PlayerPrefs.GetFloat("VolumeSFX"));
+        AudioMixer.SetFloat("VolumeSFX", PlayerPrefs.GetFloat("VolumeSFX"));
     }
 }

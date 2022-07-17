@@ -25,7 +25,7 @@ public class DataToSend
 public class GlobalLeadboard : MonoBehaviour
 {
 
-    public List<LeadBoardInfo> leadBoardInfos = new List<LeadBoardInfo>();
+    public List<LeadBoardInfo> LeadBoardInfos = new List<LeadBoardInfo>();
     public TextMeshProUGUI PrefabText;
     public Transform ButtonParent;
     public static string currentName;
@@ -36,7 +36,7 @@ public class GlobalLeadboard : MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         //Get Data from server
-        StartCoroutine(getRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
+        StartCoroutine(GetRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
        
 
     }
@@ -44,7 +44,7 @@ public class GlobalLeadboard : MonoBehaviour
     
 
     //Get Data from server
-    IEnumerator getRequest(string uri)
+    IEnumerator GetRequest(string uri)
     {
         UnityWebRequest uwr = UnityWebRequest.Get(uri);
         yield return uwr.SendWebRequest();
@@ -57,27 +57,25 @@ public class GlobalLeadboard : MonoBehaviour
         {
             Debug.Log("Received: " + uwr.downloadHandler.text);
 
-            leadBoardInfos.Clear();
-            leadBoardInfos = JsonConvert.DeserializeObject<List<LeadBoardInfo>>(uwr.downloadHandler.text);
+            LeadBoardInfos.Clear();
+            LeadBoardInfos = JsonConvert.DeserializeObject<List<LeadBoardInfo>>(uwr.downloadHandler.text);
             CreatingUI();
         }
     }
 
-   public void TestJson(int score)
+   public void IsScoreBigger(int score)
     {
-        Debug.Log("dddddddddd");
-        foreach (LeadBoardInfo element in leadBoardInfos)
-       {
+        foreach (LeadBoardInfo element in LeadBoardInfos)
+        {
             if (element.score < score)
             {
                 scoreIsBigger = true;
                 break;
             }
-       }
+        }
 
         if (scoreIsBigger)
         {
-            Debug.Log("dddddddddd");
             LeadBoardInfo leadBoardInfo = new LeadBoardInfo()
             {
                 score = score,
@@ -94,7 +92,7 @@ public class GlobalLeadboard : MonoBehaviour
 
             string json = JsonConvert.SerializeObject(dataToSend, Formatting.Indented);
 
-            StartCoroutine(postRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG", json));
+            StartCoroutine(PostRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG", json));
 
             scoreIsBigger = false;
         }
@@ -104,7 +102,7 @@ public class GlobalLeadboard : MonoBehaviour
     
     //Put Data to server
     
-    IEnumerator postRequest(string url, string json)
+    IEnumerator PostRequest(string url, string json)
     {
         
 
@@ -117,16 +115,16 @@ public class GlobalLeadboard : MonoBehaviour
         Debug.Log("Status Code: " + request.responseCode);
 
         
-        StartCoroutine(getRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
+        StartCoroutine(GetRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
         
     }
 
 
     void CreatingUI()
     {
-        leadBoardInfos.Sort(SortFunction);
+        LeadBoardInfos.Sort(SortFunction);
 
-        foreach (LeadBoardInfo element in leadBoardInfos)
+        foreach (LeadBoardInfo element in LeadBoardInfos)
         {
            TextMeshProUGUI text = Instantiate(PrefabText, ButtonParent.transform);
 

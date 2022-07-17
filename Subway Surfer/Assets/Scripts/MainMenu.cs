@@ -15,7 +15,6 @@ public class MainMenu : MonoBehaviour
         string text = InputField.GetComponent<TMP_InputField>().text;
         GlobalLeadboard.currentName = text;
 
-        Debug.Log(text);
         SceneManager.LoadScene("Main");
     }
 }
