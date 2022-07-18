@@ -65,6 +65,8 @@ public class GlobalLeadboard : MonoBehaviour
 
    public void IsScoreBigger(int score)
     {
+        if (LeadBoardInfos.Count == 0) scoreIsBigger = true;
+
         foreach (LeadBoardInfo element in LeadBoardInfos)
         {
             if (element.score < score)
@@ -104,8 +106,6 @@ public class GlobalLeadboard : MonoBehaviour
     
     IEnumerator PostRequest(string url, string json)
     {
-        
-
         UnityWebRequest request = new UnityWebRequest(url, "POST");
         byte[] bodyRaw = Encoding.UTF8.GetBytes(json);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -113,7 +113,6 @@ public class GlobalLeadboard : MonoBehaviour
         request.SetRequestHeader("Content-Type", "application/json");
         yield return request.SendWebRequest();
         Debug.Log("Status Code: " + request.responseCode);
-
         
         StartCoroutine(GetRequest("https://301.sebight.eu/api/leaderboard/2NF9IGg8iG"));
         
