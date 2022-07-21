@@ -61,6 +61,7 @@ public class UIAndScoreManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        score = 0;
         SceneManager.LoadScene("MainMenu");
     }
 

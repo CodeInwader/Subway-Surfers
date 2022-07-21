@@ -54,7 +54,8 @@ public class Player : MonoBehaviour
     public UIAndScoreManager Uiandscoremanager;
 
 
-    bool maxIsDead = false;
+    public bool maxIsDeadOrPaused = false;
+    int distanceCheck = 5;
 
 
 
@@ -65,7 +66,8 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
 
         Application.targetFrameRate = 60;
-        
+
+        Music.Play();
     }
 
     
@@ -98,16 +100,16 @@ public class Player : MonoBehaviour
     void Swipe()
     {
         
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && !maxIsDead) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began && !maxIsDeadOrPaused) //Touch Input
         {
             startTouchPosition = Input.GetTouch(0).position;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && !maxIsDead) // Mouse Input
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && !maxIsDeadOrPaused) // Mouse Input
         {
             startTouchPosition = Input.mousePosition;
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && !maxIsDead) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved && !maxIsDeadOrPaused) //Touch Input
         {
             currentTouchPosition = Input.GetTouch(0).position;
             Vector2 moveDistance = currentTouchPosition - startTouchPosition;
@@ -115,7 +117,7 @@ public class Player : MonoBehaviour
             GetDir(moveDistance);
            
         }
-        else if (Input.GetKey(KeyCode.Mouse0) && !maxIsDead) // Mouse Input
+        else if (Input.GetKey(KeyCode.Mouse0) && !maxIsDeadOrPaused) // Mouse Input
         {
             currentTouchPosition = Input.mousePosition;
             Vector3 moveDistance = currentTouchPosition - startTouchPosition;
@@ -123,7 +125,7 @@ public class Player : MonoBehaviour
             GetDir(moveDistance);
         }
 
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && !maxIsDead) //Touch Input
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended && !maxIsDeadOrPaused) //Touch Input
         {
             stopTouch = false;
 
@@ -131,12 +133,12 @@ public class Player : MonoBehaviour
 
             Vector2 distance = lastTouchPosition - startTouchPosition;
 
-            if(Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && !maxIsDead)
+            if(Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && !maxIsDeadOrPaused)
             {
                 //Touch
             }
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0) && !maxIsDead) // Mouse Input
+        else if (Input.GetKeyUp(KeyCode.Mouse0) && !maxIsDeadOrPaused) // Mouse Input
         {
             stopTouch = false;
 
@@ -144,7 +146,7 @@ public class Player : MonoBehaviour
 
             Vector2 distance = lastTouchPosition - startTouchPosition;
 
-            if (Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && !maxIsDead)
+            if (Mathf.Abs(distance.x) < Touchrange && Mathf.Abs(distance.y) < Touchrange && !maxIsDeadOrPaused)
             {
                 //Touch
             }
@@ -159,21 +161,28 @@ public class Player : MonoBehaviour
             {
                 RaycastHit hit;
                
-                if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right * -1), out hit, CheckDistance)) //Detection if player can turn left
+                if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right * -1), out hit,  Mathf.Infinity)) //Detection if player can turn left
                 {
-                    Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right * -1) * hit.distance, Color.yellow);
-                    Debug.Log(hit.transform.tag);
-
-                    if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
+                   
+                    if(hit.distance < distanceCheck) //Kontroluji jestli je vzdalenost Raycastu jen pres jedno pole
                     {
-                        canTurn = false;
-                        HitSound.Play();
-                      
+                      if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier"){
+                          canTurn = false;
+                          HitSound.Play();
+
+                        }
+                        else
+                        {
+                         canTurn = true;
+                        }
+
                     }
                     else
                     {
                         canTurn = true;
+
                     }
+
                 }
 
                 //Left
@@ -195,7 +204,6 @@ public class Player : MonoBehaviour
                     }
                 }
                 
-                Debug.Log("Left");
                 animator.Play("MaxSneakers-Left");
 
                 stopTouch = true;
@@ -204,18 +212,26 @@ public class Player : MonoBehaviour
             {
                 RaycastHit hit;
 
-                if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right), out hit, CheckDistance)) //Detection if player can turn right
+                if (Physics.Raycast(RaycastPoint.transform.position, transform.TransformDirection(Vector3.right), out hit,  Mathf.Infinity)) //Detection if player can turn right
                 {
-                   Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.right) * hit.distance, Color.yellow);
-                   Debug.Log(hit.transform.tag);
-                    if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier")
+                  
+                    if(hit.distance < distanceCheck) //Kontroluji jestli je vzdalenost Raycastu jen pres jedno pole
                     {
-                        canTurn = false;
-                        HitSound.Play();
+                      if (hit.transform.tag == "Wagon" || hit.transform.tag == "Barier"){
+                          canTurn = false;
+                          HitSound.Play();
+
+                        }
+                        else
+                        {
+                         canTurn = true;
+                        }
+
                     }
                     else
                     {
                         canTurn = true;
+
                     }
                 }
                 
@@ -323,18 +339,30 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-       if(!maxIsDead)
+       if(!maxIsDeadOrPaused)
         {
-            maxIsDead = true;
+            maxIsDeadOrPaused = true;
             animator.Play("MaxDead");
             RunSpeed = 0;
-            Music.Stop();
+            Music.Pause();
             Uiandscoremanager.Dead();
-            
-            
+        
+           
         }
         
         
+    }
+    
+    public void Pause()
+    {
+        maxIsDeadOrPaused = true;
+        Music.Pause();
+    }
+
+    public void Resume()
+    {
+        maxIsDeadOrPaused = false;
+        Music.Play();
     }
 
    

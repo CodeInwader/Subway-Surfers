@@ -7752,7 +7752,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 6820321146204097846, guid: beafb1a99ae31493a81415997f8cd379, type: 2}
   m_audioClip: {fileID: 8300000, guid: c7a89cf6c48facf489c60411e89b7784, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -16138,6 +16138,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 6172726480997892158}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: Pause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &1070801540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22640,6 +22652,18 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2021109308}
         m_TargetAssemblyTypeName: UIAndScoreManager, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6172726480997892158}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
         m_MethodName: Resume
         m_Mode: 1
         m_Arguments:
@@ -29162,10 +29186,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 3411812653436307910, guid: beafb1a99ae31493a81415997f8cd379, type: 2}
   m_audioClip: {fileID: 8300000, guid: dae306ab6c9754d7194002a237439a34, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -31263,7 +31287,7 @@ MonoBehaviour:
   deadPanel: {fileID: 96849002}
   endScore: {fileID: 1343688201}
   GlobalLeadboard: {fileID: 697012941}
-  GlobalLeadboardManager: {fileID: 0}
+  GlobalLeadboardManager: {fileID: 697012940}
 --- !u!4 &2021109309
 Transform:
   m_ObjectHideFlags: 0
@@ -40483,7 +40507,7 @@ GameObject:
   - component: {fileID: 1525183237937353584}
   - component: {fileID: 1570797720049535816}
   - component: {fileID: 1491362998064914962}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Collider
   m_TagString: Wagon
   m_Icon: {fileID: 0}
@@ -45948,8 +45972,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.99999875, z: 0.7363121}
-  m_Center: {x: 0, y: 0, z: -0.13184397}
+  m_Size: {x: 1, y: 0.99999875, z: 0.9812654}
+  m_Center: {x: 0, y: 0, z: -0.00936729}
 --- !u!65 &1570863310768566816
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -52753,13 +52777,14 @@ MonoBehaviour:
     m_Bits: 64
   SwipeRange: 50
   Touchrange: 10
-  CheckDistance: 8
+  CheckDistance: 10
   animator: {fileID: 6172726480997539293}
-  HitSound: {fileID: 1934663627}
+  HitSound: {fileID: 926250217}
   SwipeSound: {fileID: 1246357478}
   JumpAndSlide: {fileID: 481484892}
   Music: {fileID: 1934663627}
   Uiandscoremanager: {fileID: 2021109308}
+  maxIsDeadOrPaused: 0
 --- !u!143 &6172726480997892159
 CharacterController:
   m_ObjectHideFlags: 0
